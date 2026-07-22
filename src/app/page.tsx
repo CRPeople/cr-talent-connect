@@ -36,15 +36,15 @@ export default function Home() {
           </span>
 
           <span className="hover:text-gray-100 cursor-pointer">
-            Vagas
-          </span>
-
-          <span className="hover:text-gray-100 cursor-pointer">
             Empresas
           </span>
 
           <span className="hover:text-gray-100 cursor-pointer">
             Candidatos
+          </span>
+
+          <span className="hover:text-gray-100 cursor-pointer">
+            Vagas
           </span>
 
           <span className="hover:text-gray-100 cursor-pointer">
@@ -84,34 +84,39 @@ export default function Home() {
         text-transparent
         ">
 
-          CR TALENT CONNECT
+          CR PEOPLE SOLUTIONS
 
         </h2>
 
 
 
 
+
         <p className="
         mt-6
-        text-2xl
-        text-gray-300
+        text-3xl
+        font-semibold
+        text-gray-200
         max-w-3xl
         ">
 
-          Tecnologia conectando empresas aos melhores talentos.
+          Transformando Talentos em Resultados.
 
         </p>
 
 
 
+
+
         <p className="
-        mt-4
-        text-gray-500
+        mt-6
+        text-gray-400
+        text-lg
         max-w-2xl
         ">
 
-          Plataforma inteligente de Recrutamento & Seleção
-          para empresas e profissionais.
+          Soluções estratégicas em Recursos Humanos,
+          conectando empresas e profissionais.
 
         </p>
 
@@ -178,7 +183,8 @@ export default function Home() {
 
 
 
-      {/* Área Institucional */}
+
+      {/* Serviços */}
       <section className="
       px-10
       pb-24
@@ -204,17 +210,18 @@ export default function Home() {
           font-bold
           text-gray-200
           ">
-            Recrutamento Inteligente
+            Recrutamento & Seleção
           </h3>
 
           <p className="
           mt-4
           text-gray-500
           ">
-            Conectamos empresas aos profissionais mais preparados.
+            Encontramos profissionais alinhados ao perfil e objetivos da sua empresa.
           </p>
 
         </div>
+
 
 
 
@@ -234,17 +241,18 @@ export default function Home() {
           font-bold
           text-gray-200
           ">
-            Banco de Talentos
+            Gestão de Talentos
           </h3>
 
           <p className="
           mt-4
           text-gray-500
           ">
-            Gestão completa de candidatos e oportunidades.
+            Estratégias para desenvolvimento e crescimento profissional.
           </p>
 
         </div>
+
 
 
 
@@ -264,18 +272,17 @@ export default function Home() {
           font-bold
           text-gray-200
           ">
-            Tecnologia & Pessoas
+            Consultoria em RH
           </h3>
 
           <p className="
           mt-4
           text-gray-500
           ">
-            Processos mais rápidos, estratégicos e eficientes.
+            Soluções personalizadas para empresas que buscam resultados.
           </p>
 
         </div>
-
 
 
 
@@ -302,7 +309,7 @@ export default function Home() {
 
 
         <p className="mt-2 text-sm">
-          Recrutamento & Seleção | Tecnologia | Pessoas
+          Estratégia | Pessoas | Resultados
         </p>
 
 
