@@ -117,22 +117,6 @@ export default function Empresa() {
 
 
 
-            <select className="campo">
-              <option>Modelo da vaga</option>
-              <option>CLT</option>
-              <option>PJ</option>
-              <option>Temporário</option>
-              <option>Estágio</option>
-            </select>
-
-
-
-            <select className="campo">
-              <option>Modalidade</option>
-              <option>Remoto</option>
-              <option>Híbrido</option>
-              <option>Presencial</option>
-            </select>
 
 
 
