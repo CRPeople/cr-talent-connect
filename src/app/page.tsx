@@ -4,25 +4,60 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black flex items-center justify-center text-white">
 
-      <div className="text-center">
+      <div className="text-center px-6">
 
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-gray-400 to-gray-700 bg-clip-text text-transparent">
+        <h1
+          className="
+          text-5xl
+          font-bold
+          bg-gradient-to-r
+          from-white
+          via-gray-400
+          to-gray-700
+          bg-clip-text
+          text-transparent
+          "
+        >
           CR PEOPLE SOLUTIONS
         </h1>
 
-        <h2 className="text-3xl mt-4 text-gray-200">
+
+        <h2
+          className="
+          text-3xl
+          mt-4
+          text-gray-200
+          font-semibold
+          "
+        >
           Transformando Talentos em Resultados
         </h2>
 
-        <p className="mt-6 text-gray-400 text-lg">
+
+        <p
+          className="
+          mt-6
+          text-gray-400
+          text-lg
+          "
+        >
           Plataforma inteligente de Recrutamento & Seleção
         </p>
 
 
-        <div className="mt-10 flex gap-5 justify-center">
+
+        <div
+          className="
+          mt-10
+          flex
+          gap-5
+          justify-center
+          "
+        >
 
 
-          <button
+          <Link
+            href="/empresa"
             className="
             bg-gradient-to-r
             from-gray-100
@@ -33,10 +68,12 @@ export default function Home() {
             py-4
             rounded-full
             font-bold
+            hover:opacity-80
+            transition
             "
           >
             Sou Empresa
-          </button>
+          </Link>
 
 
 
@@ -61,7 +98,9 @@ export default function Home() {
 
         </div>
 
+
       </div>
+
 
     </main>
   );
