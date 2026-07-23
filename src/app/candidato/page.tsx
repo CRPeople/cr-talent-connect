@@ -5,111 +5,105 @@ import { supabase } from "@/lib/supabase";
 
 export default function Candidato() {
 
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [cargo, setCargo] = useState("");
-  const [experiencia, setExperiencia] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [curriculo, setCurriculo] = useState<File | null>(null);
-
+  const [arquivo, setArquivo] = useState<File | null>(null);
   const [mensagem, setMensagem] = useState("");
-  const [carregando, setCarregando] = useState(false);
+  const [enviando, setEnviando] = useState(false);
 
 
-  async function enviarCadastro(e: React.FormEvent) {
-
+  async function enviarCurriculo(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    setCarregando(true);
-    setMensagem("");
+    setEnviando(true);
+    setMensagem("Enviando currículo...");
 
 
-    try {
-
-      let curriculo_url = "";
+    const form = e.currentTarget;
 
 
-      // Upload do currículo
-      if (curriculo) {
+    const nome = (form.nome as HTMLInputElement).value;
+    const email = (form.email as HTMLInputElement).value;
+    const telefone = (form.telefone as HTMLInputElement).value;
+    const cidade = (form.cidade as HTMLInputElement).value;
+    const cargo = (form.cargo as HTMLInputElement).value;
+    const experiencia = (form.experiencia as HTMLTextAreaElement).value;
+    const linkedin = (form.linkedin as HTMLInputElement).value;
 
-        const nomeArquivo = `${Date.now()}-${curriculo.name}`;
+
+    let curriculo_url = "";
 
 
-        const { error: uploadError } = await supabase
-          .storage
+    // Upload do currículo
+    if (arquivo) {
+
+      const nomeArquivo =
+        `${Date.now()}-${arquivo.name}`;
+
+
+      const { error: uploadError } =
+        await supabase.storage
           .from("curriculos")
-          .upload(nomeArquivo, curriculo);
+          .upload(nomeArquivo, arquivo);
 
 
-        if (uploadError) {
-          throw uploadError;
-        }
+      if (uploadError) {
+        console.log(uploadError);
+        setMensagem("Erro ao enviar currículo.");
+        setEnviando(false);
+        return;
+      }
 
 
-        const { data } = supabase
-          .storage
+      const { data } =
+        supabase.storage
           .from("curriculos")
           .getPublicUrl(nomeArquivo);
 
 
-        curriculo_url = data.publicUrl;
-
-      }
-
+      curriculo_url = data.publicUrl;
+    }
 
 
-      // Salvar candidato no banco
 
-      const { error } = await supabase
+    // Salvar candidato
+    const { error } =
+      await supabase
         .from("candidatos")
-        .insert({
-
-          nome,
-          email,
-          telefone,
-          cidade,
-          cargo_desejado: cargo,
-          experiencia,
-          linkedin,
-          curriculo_url
-
-        });
-
-
-      if (error) {
-        throw error;
-      }
+        .insert([
+          {
+            nome,
+            email,
+            telefone,
+            cidade,
+            cargo_desejado: cargo,
+            experiencia,
+            linkedin,
+            curriculo_url
+          }
+        ]);
 
 
-      setMensagem(
-        "Cadastro realizado com sucesso! A CR People Solutions entrará em contato."
-      );
 
+    if (error) {
 
-      setNome("");
-      setEmail("");
-      setTelefone("");
-      setCidade("");
-      setCargo("");
-      setExperiencia("");
-      setLinkedin("");
-      setCurriculo(null);
-
-
-    } catch (error) {
-
-      console.error(error);
+      console.log(error);
 
       setMensagem(
-        "Ocorreu um erro ao enviar o cadastro. Tente novamente."
+        "Erro ao cadastrar candidato."
       );
+
+    } else {
+
+      setMensagem(
+        "Currículo enviado com sucesso! Obrigado por participar."
+      );
+
+      form.reset();
+      setArquivo(null);
 
     }
 
 
-    setCarregando(false);
+    setEnviando(false);
 
   }
 
@@ -124,6 +118,7 @@ export default function Candidato() {
 
 
         <div className="text-center">
+
 
           <h1 className="
           text-5xl
@@ -154,9 +149,9 @@ export default function Candidato() {
           text-gray-400
           text-lg
           ">
-            Faça parte do nosso banco de talentos e conecte-se
-            às melhores oportunidades profissionais.
+            Faça parte do nosso banco de talentos e conecte-se às melhores oportunidades profissionais.
           </p>
+
 
         </div>
 
@@ -174,114 +169,110 @@ export default function Candidato() {
         ">
 
 
-          <form 
-          onSubmit={enviarCadastro}
-          className="grid gap-5"
+
+          <form
+            onSubmit={enviarCurriculo}
+            className="grid gap-5"
           >
 
 
             <input
-            className="campo"
-            placeholder="Nome completo"
-            value={nome}
-            onChange={(e)=>setNome(e.target.value)}
+              name="nome"
+              required
+              placeholder="Nome completo"
+              className="campo"
             />
 
 
             <input
-            className="campo"
-            placeholder="E-mail"
-            type="email"
-            value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+              name="email"
+              required
+              type="email"
+              placeholder="E-mail"
+              className="campo"
             />
 
 
             <input
-            className="campo"
-            placeholder="WhatsApp"
-            value={telefone}
-            onChange={(e)=>setTelefone(e.target.value)}
+              name="telefone"
+              placeholder="WhatsApp"
+              className="campo"
             />
 
 
             <input
-            className="campo"
-            placeholder="Cidade / Estado"
-            value={cidade}
-            onChange={(e)=>setCidade(e.target.value)}
+              name="cidade"
+              placeholder="Cidade / Estado"
+              className="campo"
             />
 
 
             <input
-            className="campo"
-            placeholder="Cargo desejado"
-            value={cargo}
-            onChange={(e)=>setCargo(e.target.value)}
+              name="cargo"
+              placeholder="Cargo desejado"
+              className="campo"
+            />
+
+
+            <input
+              name="linkedin"
+              placeholder="LinkedIn"
+              className="campo"
             />
 
 
             <textarea
-            className="campo"
-            placeholder="Conte um pouco sobre sua experiência profissional"
-            rows={5}
-            value={experiencia}
-            onChange={(e)=>setExperiencia(e.target.value)}
+              name="experiencia"
+              rows={5}
+              placeholder="Conte um pouco sobre sua experiência profissional"
+              className="campo"
             />
+
 
 
             <input
-            className="campo"
-            placeholder="LinkedIn"
-            value={linkedin}
-            onChange={(e)=>setLinkedin(e.target.value)}
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={(e)=>
+                setArquivo(
+                  e.target.files?.[0] || null
+                )
+              }
+              className="text-gray-300"
             />
 
-
-            <input
-            className="
-            text-gray-300
-            "
-            type="file"
-            accept=".pdf,.doc,.docx"
-            onChange={(e)=> 
-              setCurriculo(
-                e.target.files?.[0] || null
-              )
-            }
-            />
 
 
             <button
-            className="
-            mt-4
-            bg-gradient-to-r
-            from-gray-100
-            via-gray-400
-            to-gray-700
-            text-black
-            font-bold
-            py-4
-            rounded-full
-            hover:opacity-80
-            transition
-            "
-            disabled={carregando}
+              disabled={enviando}
+              className="
+              mt-4
+              bg-gradient-to-r
+              from-gray-100
+              via-gray-400
+              to-gray-700
+              text-black
+              font-bold
+              py-4
+              rounded-full
+              hover:opacity-80
+              "
             >
 
-            {carregando 
-              ? "Enviando..."
-              : "Enviar currículo"
-            }
+              {enviando
+                ? "Enviando..."
+                : "Enviar currículo"
+              }
 
             </button>
+
 
 
           </form>
 
 
-          {
-            mensagem &&
+          {mensagem && (
+
             <p className="
             mt-6
             text-center
@@ -289,7 +280,9 @@ export default function Candidato() {
             ">
               {mensagem}
             </p>
-          }
+
+          )}
+
 
 
         </div>
@@ -301,5 +294,4 @@ export default function Candidato() {
     </main>
 
   );
-
 }
