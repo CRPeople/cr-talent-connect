@@ -45,12 +45,20 @@ export default function Candidato() {
           .upload(nomeArquivo, arquivo);
 
 
+
       if (uploadError) {
-        console.log(uploadError);
-        setMensagem("Erro ao enviar currículo.");
+
+        console.log("ERRO UPLOAD:", uploadError);
+
+        setMensagem(
+          "Erro no upload: " + uploadError.message
+        );
+
         setEnviando(false);
+
         return;
       }
+
 
 
       const { data } =
@@ -59,12 +67,14 @@ export default function Candidato() {
           .getPublicUrl(nomeArquivo);
 
 
+
       curriculo_url = data.publicUrl;
+
     }
 
 
 
-    // Salvar candidato
+    // Salvar candidato no banco
     const { error } =
       await supabase
         .from("candidatos")
@@ -85,19 +95,23 @@ export default function Candidato() {
 
     if (error) {
 
-      console.log(error);
+      console.log("ERRO BANCO:", error);
 
       setMensagem(
-        "Erro ao cadastrar candidato."
+        "Erro ao cadastrar: " + error.message
       );
 
+
     } else {
+
 
       setMensagem(
         "Currículo enviado com sucesso! Obrigado por participar."
       );
 
+
       form.reset();
+
       setArquivo(null);
 
     }
@@ -120,35 +134,41 @@ export default function Candidato() {
         <div className="text-center">
 
 
-          <h1 className="
-          text-5xl
-          font-bold
-          bg-gradient-to-r
-          from-white
-          via-gray-400
-          to-gray-700
-          bg-clip-text
-          text-transparent
-          ">
+          <h1
+            className="
+            text-5xl
+            font-bold
+            bg-gradient-to-r
+            from-white
+            via-gray-400
+            to-gray-700
+            bg-clip-text
+            text-transparent
+            "
+          >
             CR TALENT CONNECT
           </h1>
 
 
-          <h2 className="
-          mt-4
-          text-3xl
-          text-gray-200
-          font-semibold
-          ">
+          <h2
+            className="
+            mt-4
+            text-3xl
+            text-gray-200
+            font-semibold
+            "
+          >
             Cadastro de Talentos
           </h2>
 
 
-          <p className="
-          mt-6
-          text-gray-400
-          text-lg
-          ">
+          <p
+            className="
+            mt-6
+            text-gray-400
+            text-lg
+            "
+          >
             Faça parte do nosso banco de talentos e conecte-se às melhores oportunidades profissionais.
           </p>
 
@@ -157,17 +177,18 @@ export default function Candidato() {
 
 
 
-        <div className="
-        mt-12
-        bg-gradient-to-br
-        from-gray-900
-        to-black
-        border
-        border-gray-800
-        rounded-2xl
-        p-8
-        ">
-
+        <div
+          className="
+          mt-12
+          bg-gradient-to-br
+          from-gray-900
+          to-black
+          border
+          border-gray-800
+          rounded-2xl
+          p-8
+          "
+        >
 
 
           <form
@@ -180,7 +201,7 @@ export default function Candidato() {
               name="nome"
               required
               placeholder="Nome completo"
-              className="campo"
+              className="bg-black border border-gray-700 rounded-lg px-5 py-4 text-white"
             />
 
 
@@ -189,35 +210,35 @@ export default function Candidato() {
               required
               type="email"
               placeholder="E-mail"
-              className="campo"
+              className="bg-black border border-gray-700 rounded-lg px-5 py-4 text-white"
             />
 
 
             <input
               name="telefone"
               placeholder="WhatsApp"
-              className="campo"
+              className="bg-black border border-gray-700 rounded-lg px-5 py-4 text-white"
             />
 
 
             <input
               name="cidade"
               placeholder="Cidade / Estado"
-              className="campo"
+              className="bg-black border border-gray-700 rounded-lg px-5 py-4 text-white"
             />
 
 
             <input
               name="cargo"
               placeholder="Cargo desejado"
-              className="campo"
+              className="bg-black border border-gray-700 rounded-lg px-5 py-4 text-white"
             />
 
 
             <input
               name="linkedin"
               placeholder="LinkedIn"
-              className="campo"
+              className="bg-black border border-gray-700 rounded-lg px-5 py-4 text-white"
             />
 
 
@@ -225,22 +246,20 @@ export default function Candidato() {
               name="experiencia"
               rows={5}
               placeholder="Conte um pouco sobre sua experiência profissional"
-              className="campo"
+              className="bg-black border border-gray-700 rounded-lg px-5 py-4 text-white"
             />
-
 
 
             <input
               type="file"
               accept=".pdf,.doc,.docx"
-              onChange={(e)=>
+              onChange={(e) =>
                 setArquivo(
                   e.target.files?.[0] || null
                 )
               }
               className="text-gray-300"
             />
-
 
 
             <button
@@ -267,22 +286,22 @@ export default function Candidato() {
             </button>
 
 
-
           </form>
 
 
           {mensagem && (
 
-            <p className="
-            mt-6
-            text-center
-            text-gray-300
-            ">
+            <p
+              className="
+              mt-6
+              text-center
+              text-gray-300
+              "
+            >
               {mensagem}
             </p>
 
           )}
-
 
 
         </div>
@@ -294,4 +313,5 @@ export default function Candidato() {
     </main>
 
   );
+
 }
